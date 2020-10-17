@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "548911484009",
+    "firebase_url": "https://kaffeina-133.firebaseio.com",
+    "project_id": "kaffeina-133",
+    "storage_bucket": "kaffeina-133.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548911484009:android:a1f361b133d48f5caaa6f8",
+        "android_client_info": {
+          "package_name": "com.example.kaffeina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548911484009-1adaavs9dr0vrvj1e0gjmqq3nhenmo2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWH3EPK2zAPoTS0EdH3ZE_rEMPjXMmlpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548911484009-1adaavs9dr0vrvj1e0gjmqq3nhenmo2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
