@@ -43,17 +43,18 @@ public class Register extends AppCompatActivity {
                 String name = nameField.getText().toString();
                 boolean missingFields = false;
 
-                if (email.isEmpty()) {
+                if (name.isEmpty()) {
+                    nameField.setError("Please enter a name");
+                    nameField.requestFocus();
+                    missingFields = true;
+                }
+                else if (email.isEmpty()) {
                     emailField.setError("Please enter an email address");
                     emailField.requestFocus();
                     missingFields = true;
                 } else if (password.isEmpty()) {
                     passwordField.setError("Please enter a password");
                     passwordField.requestFocus();
-                    missingFields = true;
-                } else if (name.isEmpty()) {
-                    nameField.setError("Please enter a name");
-                    nameField.requestFocus();
                     missingFields = true;
                 }
 
@@ -66,7 +67,7 @@ public class Register extends AppCompatActivity {
                             if(!task.isSuccessful()){
                                 Toast.makeText(Register.this, "SignUp unsuccessful.  Did you sell your soul to Milhouse again?", Toast.LENGTH_SHORT).show();
                             }
-                            else{
+                            else {
                                 startActivity(new Intent(Register.this, MainActivity.class));
                             }
                         }
