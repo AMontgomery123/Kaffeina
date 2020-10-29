@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
@@ -71,7 +72,8 @@ public class Login extends AppCompatActivity {
                        @Override
                        public void onComplete(@NonNull Task<AuthResult> task){
                            if(!task.isSuccessful()) {
-                               Toast.makeText(Login.this, "Login error, please login again or sign up", Toast.LENGTH_SHORT).show();
+                               String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                               Toast.makeText(Login.this, "Login error: "+errorCode, Toast.LENGTH_SHORT).show();
                            }
                            else {
                                Intent intToMain = new Intent(Login.this, MainActivity.class);
