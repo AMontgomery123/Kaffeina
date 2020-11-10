@@ -18,10 +18,11 @@
         app:layout_constraintVertical_bias="0.31" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/reviewTitle"
         android:layout_width="263dp"
         android:layout_height="30dp"
         android:text="TextView"
+        android:hint="Review Title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,7 @@
         app:layout_constraintVertical_bias="0.22000003" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/reviewBody"
         android:layout_width="240dp"
         android:layout_height="283dp"
         android:ems="10"
