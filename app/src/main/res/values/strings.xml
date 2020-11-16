@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Kaffeina</string>
-    <string name="Kaffeina">app_label</string>
-    <string name="search_hint">search_hint</string>
-    <string name="map_key" translatable="false">AIzaSyB_qsP8AOP_P0MdlPz-48TDaJYjTP3vbjo</string>
-</resources>
