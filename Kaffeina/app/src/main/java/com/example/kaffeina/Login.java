@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
     EditText emailField, passwordField;
     Button logIn, register;
+
     FirebaseAuth Gandalph;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 

@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Review extends AppCompatActivity {
     //Title for review, rating, and body
     TextView review_title;
-    RatingBar rating;
+    RatingBar rating_field;
     EditText review_body;
     FirebaseDatabase database;
     DatabaseReference title_ref, body_ref, rating_ref;
@@ -30,8 +30,9 @@ public class Review extends AppCompatActivity {
         setContentView(R.layout.activity_review);
 
         review_title = findViewById(R.id.reviewTitle);
-        rating = findViewById(R.id.ratingBar);
+        rating_field = findViewById(R.id.ratingBar);
         review_body = findViewById(R.id.reviewBody);
+        
         createReview = findViewById(R.id.create_review);
         createReview.setOnClickListener(new View.OnClickListener(){
             @Override
