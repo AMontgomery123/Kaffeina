@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button registerTest, loginTest;
+    Button registerTest, loginTest, reviewTests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         registerTest = findViewById(R.id.registerTestButton);
         loginTest = findViewById(R.id.loginTestButton);
-
+        reviewTests = findViewById(R.id.reviewTestButton);
         registerTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -28,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Login.class));
+            }
+        });
+        reviewTests.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(MainActivity.this, Review.class));
             }
         });
     }
