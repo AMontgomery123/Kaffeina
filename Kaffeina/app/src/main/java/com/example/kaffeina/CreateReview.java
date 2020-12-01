@@ -1,5 +1,6 @@
 package com.example.kaffeina;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,9 +15,12 @@ import com.example.kaffeina.Review;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ValueEventListener;
 
 public class CreateReview extends AppCompatActivity {
     //Title for review, rating, and body
@@ -67,12 +71,28 @@ public class CreateReview extends AppCompatActivity {
 
 
                     Review review = new Review(title, ratingScore, actualReview, user_id, "2");
-
+                    final User updateUser = new User();
                     database = FirebaseDatabase.getInstance();
-                    String unique_id = "00101101";
+                    DatabaseReference mdata = database.getReference().child("Users/" + user_id);
+                    mdata.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User testUser = snapshot.getValue(User.class);
+                            updateUser.setUser(testUser);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                });
+                    String unique_id = "00101111";
+                    updateUser.reviewCount++;
                     review_ref = database.getReference("Reviews/" + unique_id);
                     review_by_user_ref = database.getReference("Review_by_user/" + user_id);
-
+                    //we incremented the review count and pushed the database
+                    mdata.setValue(updateUser);
                     review_ref.setValue(review);
                     review_by_user_ref.setValue(unique_id);
 

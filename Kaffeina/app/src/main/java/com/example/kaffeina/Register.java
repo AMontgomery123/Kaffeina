@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 import android.os.Bundle;
@@ -39,9 +41,9 @@ public class Register extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailField.getText().toString();
+                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
-                String name = nameField.getText().toString();
+                 String name = nameField.getText().toString();
                 boolean missingFields = false;
 
                 if (name.isEmpty()) {
@@ -150,6 +152,13 @@ public class Register extends AppCompatActivity {
                                 /// Toast.makeText(Register.this, "SignUp unsuccessful.  Did you sell your soul to Milhouse again?", Toast.LENGTH_SHORT).show();
                             }
                             else {
+                                String userID = Gandalph.getUid();
+                                final String name = nameField.getText().toString();
+                                final String email = emailField.getText().toString();
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference userReference = database.getReference("User/"+userID);
+                                User newUser = new User(userID, name, email, 0);
+                                userReference.setValue(newUser);
                                 startActivity(new Intent(Register.this, MainActivity.class));
                             }
                         }
