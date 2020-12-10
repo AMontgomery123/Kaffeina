@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.kaffeina.Review;
@@ -23,34 +22,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 
-public class CreateReview extends AppCompatActivity {
-    //Title for review, rating, and body
-    TextView review_title;
-    RatingBar rating_field;
-    EditText review_body;
+public class CreateRestaurant extends AppCompatActivity{
+    TextView restaurant_title;
+    EditText restaurant_profile;
     FirebaseDatabase database;
-    DatabaseReference review_ref, review_by_user_ref;
-    private FirebaseUser current_user;
+    private FirebaseUser current_restaurant;
+
     //Button for creating review
-    Button createReview;
+    Button checkMenu;
     User updateUser = new User();
 
-    //Creates a new review
+    //Create a new restaurant
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_review);
 
-        review_title = findViewById(R.id.reviewTitle);
-        rating_field = findViewById(R.id.ratingBar);
-        review_body = findViewById(R.id.reviewBody);
-
-        createReview = findViewById(R.id.createReview);
-        createReview.setOnClickListener(new View.OnClickListener(){
+        restaurant_title = findViewById(R.id.restaurantTitle);
+        restaurant_profile = findViewById(R.id.restaurantProfile);
             @Override
             public void onClick(View v) {
-                current_user = FirebaseAuth.getInstance().getCurrentUser();
-                if( current_user == null){
+                current_restaurant = FirebaseAuth.getInstance().getCurrentUser();
+                if( current_restaurant == null){
                     Toast.makeText(CreateReview.this, "please provide a rating score", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -97,8 +90,8 @@ public class CreateReview extends AppCompatActivity {
 
                         }
 
-                });
-                   DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id+"/reviewCount");
+                    });
+                    DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id+"/reviewCount");
                     updateUser.reviewCount++;
                     Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
                     updateUserReviewCount.setValue(updateUser.reviewCount);
@@ -107,5 +100,6 @@ public class CreateReview extends AppCompatActivity {
                 }
             }
         });
+    }
     }
 }
