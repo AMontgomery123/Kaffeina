@@ -27,4 +27,9 @@ public class User {
         this.userEmail = newUser.userEmail;
         this.reviewCount = newUser.reviewCount;
     }
+
+    public String getString(){
+        String returnString = this.uid + " " + this.userName + " " + this.userEmail + " " + Integer.toString(this.reviewCount);
+        return returnString;
+    }
 }

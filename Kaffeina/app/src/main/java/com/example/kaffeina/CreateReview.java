@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class CreateReview extends AppCompatActivity {
     private FirebaseUser current_user;
     //Button for creating review
     Button createReview;
+    User updateUser = new User();
 
     //Creates a new review
     @Override
@@ -71,9 +73,17 @@ public class CreateReview extends AppCompatActivity {
 
 
                     Review review = new Review(title, ratingScore, actualReview, user_id, "2");
-                    final User updateUser = new User();
                     database = FirebaseDatabase.getInstance();
-                    DatabaseReference mdata = database.getReference().child("Users/" + user_id);
+
+                    String unique_id = user_id + "@" + Long.toString(System.currentTimeMillis());
+                    review_ref = database.getReference("Reviews/" + unique_id);
+                    review_by_user_ref = database.getReference("Review_by_user/" + user_id);
+
+                    review_ref.setValue(review);
+                    review_by_user_ref.setValue(unique_id);
+                    Toast.makeText(CreateReview.this, user_id, Toast.LENGTH_LONG).show();
+
+                    DatabaseReference mdata = database.getReference().child("User/" + user_id);
                     mdata.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -81,20 +91,17 @@ public class CreateReview extends AppCompatActivity {
                             updateUser.setUser(testUser);
                         }
 
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
 
                 });
-                    String unique_id = "00101111";
+                   DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id+"/reviewCount");
                     updateUser.reviewCount++;
-                    review_ref = database.getReference("Reviews/" + unique_id);
-                    review_by_user_ref = database.getReference("Review_by_user/" + user_id);
-                    //we incremented the review count and pushed the database
-                    mdata.setValue(updateUser);
-                    review_ref.setValue(review);
-                    review_by_user_ref.setValue(unique_id);
+                    Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
+                    updateUserReviewCount.setValue(updateUser.reviewCount);
 
                     startActivity(new Intent(CreateReview.this, MainActivity.class));
                 }
