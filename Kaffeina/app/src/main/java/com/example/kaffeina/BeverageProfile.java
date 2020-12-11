@@ -3,7 +3,6 @@ package com.example.kaffeina;
 public class BeverageProfile {
     private String name = "";
     private int calories = 0;
-    private String[] allergicIngredients;
     private String profile = "";
     public String beverageID = "";
     private void getName(){
@@ -12,11 +11,11 @@ public class BeverageProfile {
     private int getCalories(){
         return calories;
     }
-    private void getAllergicIngredients(){
-        System.out.println(allergicIngredients);
-    }
     private void getReview(){
         System.out.println(profile);
+    }
+    public BeverageProfile(){
+
     }
     public BeverageProfile(String name, int calories, String profile, String uID, String beverageID){
         this.name = name;
