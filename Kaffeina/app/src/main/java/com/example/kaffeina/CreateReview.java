@@ -1,9 +1,11 @@
 package com.example.kaffeina;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,9 +16,12 @@ import com.example.kaffeina.Review;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ValueEventListener;
 
 public class CreateReview extends AppCompatActivity {
     //Title for review, rating, and body
@@ -28,6 +33,7 @@ public class CreateReview extends AppCompatActivity {
     private FirebaseUser current_user;
     //Button for creating review
     Button createReview;
+    User updateUser = new User();
 
     //Creates a new review
     @Override
@@ -45,7 +51,7 @@ public class CreateReview extends AppCompatActivity {
             public void onClick(View v) {
                 current_user = FirebaseAuth.getInstance().getCurrentUser();
                 if( current_user == null){
-                    Toast.makeText(CreateReview.this, "please provide a rating score", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateReview.this, "please Log in", Toast.LENGTH_LONG).show();
                 }
                 else {
                     String user_id = current_user.getUid();
@@ -67,14 +73,35 @@ public class CreateReview extends AppCompatActivity {
 
 
                     Review review = new Review(title, ratingScore, actualReview, user_id, "2");
-
                     database = FirebaseDatabase.getInstance();
-                    String unique_id = "00101101";
+
+                    String unique_id = user_id + "@" + Long.toString(System.currentTimeMillis());
                     review_ref = database.getReference("Reviews/" + unique_id);
                     review_by_user_ref = database.getReference("Review_by_user/" + user_id);
 
                     review_ref.setValue(review);
                     review_by_user_ref.setValue(unique_id);
+                    Toast.makeText(CreateReview.this, user_id, Toast.LENGTH_LONG).show();
+
+                    DatabaseReference mdata = database.getReference().child("User/" + user_id);
+                    mdata.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User testUser = snapshot.getValue(User.class);
+                            updateUser.setUser(testUser);
+                        }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                });
+                   DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id+"/reviewCount");
+                    updateUser.reviewCount++;
+                    Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
+                    updateUserReviewCount.setValue(updateUser.reviewCount);
 
                     startActivity(new Intent(CreateReview.this, MainActivity.class));
                 }
