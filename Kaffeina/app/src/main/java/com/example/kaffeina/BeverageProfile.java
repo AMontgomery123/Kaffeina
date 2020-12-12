@@ -1,17 +1,17 @@
 package com.example.kaffeina;
 
 public class BeverageProfile {
-    private String name = "";
-    private int calories = 0;
-    private String profile = "";
+    public String name = "";
+    public int calories = 0;
+    public String profile = "";
     public String beverageID = "";
-    private void getName(){
+    public void getName(){
          System.out.println(name);
     }
-    private int getCalories(){
+    public int getCalories(){
         return calories;
     }
-    private void getReview(){
+    public void getReview(){
         System.out.println(profile);
     }
     public BeverageProfile(){
@@ -23,5 +23,11 @@ public class BeverageProfile {
         this.profile = profile;
         this.beverageID = beverageID;
 
+    }
+    public void  setBeverageProfile(BeverageProfile newBeverage){
+        this.name = newBeverage.name;
+        this.calories = newBeverage.calories;
+        this.profile = newBeverage.profile;
+        this.beverageID = newBeverage.beverageID;
     }
 }
