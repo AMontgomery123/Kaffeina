@@ -51,7 +51,7 @@ public class CreateReview extends AppCompatActivity {
             public void onClick(View v) {
                 current_user = FirebaseAuth.getInstance().getCurrentUser();
                 if( current_user == null){
-                    Toast.makeText(CreateReview.this, "please provide a rating score", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateReview.this, "please Log in", Toast.LENGTH_LONG).show();
                 }
                 else {
                     String user_id = current_user.getUid();

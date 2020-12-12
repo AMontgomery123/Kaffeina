@@ -2,6 +2,7 @@ package com.example.kaffeina;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,65 +34,71 @@ public class AddBeverage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addbeverage);
-        beverage_name = findViewById(R.id.restaurantTitle);
+        beverage_name = findViewById(R.id.beverageName);
+        beverage_info = findViewById(R.id.beverageInfo);
         addBeverage = findViewById(R.id.addBeverage);
-        if( current_user == null){
-            Toast.makeText(AddBeverage.this, "please sign in", Toast.LENGTH_LONG).show();
-        }
-        else {
-            String user_id = current_user.getUid();
-            String beverageName = beverage_name.getText().toString();
-            int calories = -1;
-            String beverageInfo = beverage_info.getText().toString();
 
-            if (beverageName.isEmpty()) {
-                beverage_name.setError("Please enter a title");
-                beverage_name.requestFocus();
-            } else if (beverageInfo.isEmpty()) {
-                beverage_info.setError("Please enter a description");
-                beverage_info.requestFocus();
-            }
+        addBeverage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (current_user == null) {
+                    Toast.makeText(AddBeverage.this, "please sign in", Toast.LENGTH_LONG).show();
+                } else {
+                    String user_id = current_user.getUid();
+                    String beverageName = beverage_name.getText().toString();
+                    int calories = -1;
+                    String beverageInfo = beverage_info.getText().toString();
 
-            Intent intent = getIntent();
-            String restaurant = intent.getStringExtra("Restaurant ID");
+                    if (beverageName.isEmpty()) {
+                        beverage_name.setError("Please enter a title");
+                        beverage_name.requestFocus();
+                    } else if (beverageInfo.isEmpty()) {
+                        beverage_info.setError("Please enter a description");
+                        beverage_info.requestFocus();
+                    }
 
-            BeverageProfile beverage = new BeverageProfile(user_id, calories, beverageInfo, user_id, "2");
-            database = FirebaseDatabase.getInstance();
+                    Intent intent = getIntent();
+                    String restaurant = intent.getStringExtra("Restaurant ID");
 
-            String unique_beverage_id = restaurant + "@" + beverage.name;
-            Toast.makeText(AddBeverage.this, user_id, Toast.LENGTH_LONG).show();
+                    BeverageProfile beverage = new BeverageProfile(user_id, calories, beverageInfo, user_id, "2");
+                    database = FirebaseDatabase.getInstance();
 
-            DatabaseReference mdata = database.getReference().child("Beverage/" + unique_beverage_id);
-            mdata.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User testUser = snapshot.getValue(User.class);
-                    updateUser.setUser(testUser);
-                    BeverageProfile testBeverage = snapshot.getValue(BeverageProfile.class);
-                    checkBeverage.setBeverageProfile(testBeverage);
+                    String unique_beverage_id = restaurant + "@" + beverage.name;
+                    Toast.makeText(AddBeverage.this, user_id, Toast.LENGTH_LONG).show();
+
+                    DatabaseReference mdata = database.getReference().child("Beverage/" + unique_beverage_id);
+                    mdata.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User testUser = snapshot.getValue(User.class);
+                            updateUser.setUser(testUser);
+                            BeverageProfile testBeverage = snapshot.getValue(BeverageProfile.class);
+                            checkBeverage.setBeverageProfile(testBeverage);
+                        }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+                    //checks if the beverages are already added or not
+                    if (checkBeverage.name == null) {
+                        beverage_by_user_ref = database.getReference("Beverage_by_user/" + user_id);
+                        beverage_ref = database.getReference("Beverage/" + unique_beverage_id);
+                        beverage_ref.setValue(beverage);
+                        beverage_by_user_ref.setValue(unique_beverage_id);
+                    }
+                    //if they already exist, it'll give an error message
+                    else {
+                        Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist", Toast.LENGTH_LONG).show();
+                    }
+
+
+                    startActivity(new Intent(AddBeverage.this, MainActivity.class));
                 }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-
-            });
-            //checks if the beverages are already added or not
-            if(checkBeverage.name == null){
-                beverage_by_user_ref = database.getReference("Beverage_by_user/" + user_id);
-                beverage_ref = database.getReference("Beverage/" + unique_beverage_id);
-                beverage_ref.setValue(beverage);
-                beverage_by_user_ref.setValue(unique_beverage_id);
             }
-            //if they already exist, it'll give an error message
-            else{
-                Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist", Toast.LENGTH_LONG).show();
-            }
-
-
-            startActivity(new Intent(AddBeverage.this, MainActivity.class));
-        }
+        });
     }
 }
