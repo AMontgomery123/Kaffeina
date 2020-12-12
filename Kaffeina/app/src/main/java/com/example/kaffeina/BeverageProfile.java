@@ -25,9 +25,18 @@ public class BeverageProfile {
 
     }
     public void  setBeverageProfile(BeverageProfile newBeverage){
-        this.name = newBeverage.name;
-        this.calories = newBeverage.calories;
-        this.profile = newBeverage.profile;
-        this.beverageID = newBeverage.beverageID;
+        if (newBeverage == null){
+            this.name = null;
+            this.calories = 0;
+            this.profile = null;
+            this.beverageID = null;
+
+        }
+        else{
+            this.name = newBeverage.name;
+            this.calories = newBeverage.calories;
+            this.profile = newBeverage.profile;
+            this.beverageID = newBeverage.beverageID;
+        }
     }
 }

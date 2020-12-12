@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(MainActivity.this, AddBeverage.class);
                     //Suds will make a restaurant class for the restaurant that will be clicked and have the
                     //id be passed from that parameter class
-                    myIntent.putExtra("Restaurant ID", "restaurantUniqueID");
+                    myIntent.putExtra("Restaurant ID", "restaurant1");
                     startActivity(myIntent);
                 }
         };

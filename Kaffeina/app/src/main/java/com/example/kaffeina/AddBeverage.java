@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +29,6 @@ public class AddBeverage extends AppCompatActivity {
     private FirebaseUser current_user;
     BeverageProfile bP = new BeverageProfile();
     //
-    User updateUser = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class AddBeverage extends AppCompatActivity {
         addBeverage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                current_user = FirebaseAuth.getInstance().getCurrentUser();
                 if (current_user == null) {
                     Toast.makeText(AddBeverage.this, "please sign in", Toast.LENGTH_LONG).show();
                 } else {
@@ -60,18 +61,15 @@ public class AddBeverage extends AppCompatActivity {
                     Intent intent = getIntent();
                     String restaurant = intent.getStringExtra("Restaurant ID");
 
-                    BeverageProfile beverage = new BeverageProfile(user_id, calories, beverageInfo, user_id, "2");
+                    BeverageProfile beverage = new BeverageProfile(beverageName, calories, beverageInfo, user_id, "2");
                     database = FirebaseDatabase.getInstance();
 
                     String unique_beverage_id = restaurant + "@" + beverage.name;
-                    Toast.makeText(AddBeverage.this, user_id, Toast.LENGTH_LONG).show();
 
                     DatabaseReference mdata = database.getReference().child("Beverage/" + unique_beverage_id);
                     mdata.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User testUser = snapshot.getValue(User.class);
-                            updateUser.setUser(testUser);
                             BeverageProfile testBeverage = snapshot.getValue(BeverageProfile.class);
                             checkBeverage.setBeverageProfile(testBeverage);
                         }
@@ -92,7 +90,7 @@ public class AddBeverage extends AppCompatActivity {
                     }
                     //if they already exist, it'll give an error message
                     else {
-                        Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist: "+checkBeverage.name, Toast.LENGTH_LONG).show();
                     }
 
 
