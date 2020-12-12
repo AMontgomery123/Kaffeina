@@ -46,10 +46,10 @@ public class SearchableActivity extends ListActivity implements LocationListener
         setContentView(R.layout.search);
 
         final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
-        final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
+        //final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
 
-        rvRestaurants.adapter = adapter;
-        rvRestaurants.layoutManager = new LinearLayoutManager(this);
+        // rvRestaurants.adapter = adapter;
+        // rvRestaurants.layoutManager = new LinearLayoutManager(this);
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -68,7 +68,7 @@ public class SearchableActivity extends ListActivity implements LocationListener
                         return;
                     }
                     restaurants.addAll(body.restaurants);
-                    adapter.notifyAll();
+                    //adapter.notifyAll();
                 }
                 @Override
                 public void onFailure(Call<YelpSearchResult> call, Throwable t) {
