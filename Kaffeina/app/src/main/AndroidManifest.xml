@@ -32,6 +32,7 @@
         <activity android:name=".Login" />
         <activity android:name=".Register" />
         <activity android:name=".CreateReview" />
+        <activity android:name=".AddBeverage" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
