@@ -12,6 +12,14 @@ android {
         versionCode 1
         versionName "1.0"
 
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+
+        // Inject the Maps API key into the manifest
+        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "") ]
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,7 +45,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
