@@ -42,7 +42,7 @@ public class CreateReview extends AppCompatActivity {
         setContentView(R.layout.activity_create_review);
 
         review_title = findViewById(R.id.reviewTitle);
-        rating_field = findViewById(R.id.ratingBar);
+        rating_field = (RatingBar)findViewById(R.id.ratingBar);
         review_body = findViewById(R.id.reviewBody);
 
         createReview = findViewById(R.id.createReview);
@@ -56,8 +56,8 @@ public class CreateReview extends AppCompatActivity {
                 else {
                     String user_id = current_user.getUid();
                     String title = review_title.getText().toString();
-                    int ratingScore = -1;
-                    ratingScore = rating_field.getNumStars();
+                    Float ratingScore = 1f;
+                    ratingScore = rating_field.getRating();
                     String actualReview = review_body.getText().toString();
 
                     if (title.isEmpty()) {
@@ -84,11 +84,15 @@ public class CreateReview extends AppCompatActivity {
                     Toast.makeText(CreateReview.this, user_id, Toast.LENGTH_LONG).show();
 
                     DatabaseReference mdata = database.getReference().child("User/" + user_id);
-                    mdata.addValueEventListener(new ValueEventListener() {
+                    mdata.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User testUser = snapshot.getValue(User.class);
-                            updateUser.setUser(testUser);
+                            testUser.reviewCount++;
+                            DatabaseReference updateUserReviewCount = database.getReference("User/"+testUser.uid);
+                            updateUserReviewCount.setValue(testUser);
+
+//                            updateUser.setUser(testUser);
                         }
 
 
@@ -98,10 +102,10 @@ public class CreateReview extends AppCompatActivity {
                         }
 
                 });
-                   DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id+"/reviewCount");
-                    updateUser.reviewCount++;
-                    Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
-                    updateUserReviewCount.setValue(updateUser.reviewCount);
+                   //DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id);
+                    //updateUser.reviewCount++;
+                    //Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
+                    //updateUserReviewCount.setValue(updateUser);
 
                     startActivity(new Intent(CreateReview.this, MainActivity.class));
                 }
