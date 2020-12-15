@@ -36,7 +36,7 @@ public class CreateRestaurant extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_review);
+        setContentView(R.layout.activity_restaurant);
 
         Intent intent = getIntent();
         Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("Restaurant ID");
