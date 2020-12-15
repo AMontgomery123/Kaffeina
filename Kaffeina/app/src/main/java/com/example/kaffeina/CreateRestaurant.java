@@ -70,13 +70,6 @@ public class CreateRestaurant extends AppCompatActivity{
 
         beverageListView = (ListView)findViewById(R.id.beverage_list);
 
-//        beverageList.add("Black Coffee");
-//        beverageList.add("Carmel Machiato");
-//        beverageList.add("Green Tea");
-//        beverageList.add("Water");
-//        beverageList.add("Orange Juice");
-//        beverageList.add("yo mama");
-
         adapter = new ArrayAdapter(CreateRestaurant.this, android.R.layout.simple_list_item_1, beverageList);
         beverageListView.setAdapter(adapter);
 
@@ -87,7 +80,7 @@ public class CreateRestaurant extends AppCompatActivity{
                 Object o = beverageListView.getItemAtPosition(position);
                 if (o.toString() != "no beverages"){
                     Intent next_intent = new Intent(CreateRestaurant.this, CreateBeverageProfile.class);
-                    next_intent.putExtra("beverage_clicked", o.toString());
+                    next_intent.putExtra("beverage_name", o.toString());
                     next_intent.putExtra("restaurant", current_restaurant);
                     startActivity(next_intent);
                 }

@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <TextView
         android:id="@+id/numberOfReviews"
         android:layout_width="130dp"
         android:layout_height="24dp"
         android:ems="10"
-        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -19,12 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.596" />
 
-    <EditText
+    <TextView
         android:id="@+id/beverageTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="168dp"
+        android:layout_height="36dp"
         android:ems="10"
-        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -36,7 +34,6 @@
         android:id="@+id/allergicHazards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -57,7 +54,6 @@
         android:id="@+id/beverageDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -76,4 +72,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.947" />
+
+    <Button
+        android:id="@+id/create_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Review"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", "");
+                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", "Coffee,Late,Juice,Milk Tea");
                 Intent myIntent = new Intent(MainActivity.this, CreateRestaurant.class);
                 //Suds will make a restaurant class for the restaurant that will be clicked and have the
                 //id be passed from that parameter class

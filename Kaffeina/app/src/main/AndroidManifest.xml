@@ -15,6 +15,7 @@
         <activity android:name=".AddBeverage" />
         <activity android:name=".SearchableActivity" />
         <activity android:name=".CreateRestaurant" />
+        <activity android:name=".CreateBeverageProfile" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

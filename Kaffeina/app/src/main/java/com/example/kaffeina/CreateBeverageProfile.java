@@ -22,27 +22,57 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateBeverageProfile extends AppCompatActivity {
     //Title
-    TextView beverageProfile_title;
-    TextView beverageProfile_allergic_ingredients;
-    TextView beverageProfile_calories;
-    TextView beverageProfile_reviewAmount;
+    TextView beverageProfile_title, beverageProfile_reviewAmount, beverageProfile_description;
     RatingBar beverageProfile_reviews;
-    TextView beverageProfile_description;
     FirebaseDatabase database;
-    private FirebaseUser restaurantOwner;
+    private FirebaseUser current_user;
     DatabaseReference profile_ref, profile_by_user_ref;
-    EditText beverageProfile_body;
     //Button
-    Button createBeverageProfile;
+    Button createReview, logIn;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beverageprofile);
 
+        current_user = FirebaseAuth.getInstance().getCurrentUser();
+        final String user_id = current_user.getUid();
+
         beverageProfile_title = findViewById(R.id.beverageTitle);
         beverageProfile_reviews = findViewById(R.id.beverageConsensus);
         beverageProfile_reviewAmount = findViewById(R.id.numberOfReviews);
         beverageProfile_description = findViewById(R.id.beverageDescription);
+        createReview = findViewById(R.id.create_review);
+        logIn = findViewById(R.id.logInBeverageButton);
+
+        database = FirebaseDatabase.getInstance();
+
+        Intent intent = getIntent();
+        final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
+        final String beverage_name = intent.getStringExtra("beverage_name");
+
+        beverageProfile_title.setText(beverage_name);
+
+        createReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user_id == null){
+                    Toast.makeText(CreateBeverageProfile.this, "Please log in to create beverage", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent next_intent = new Intent(CreateBeverageProfile.this, CreateReview.class);
+                    next_intent.putExtra("restaurant", current_restaurant);
+                    next_intent.putExtra("beverage_name", beverage_name);
+                    startActivity(next_intent);
+                }
+            }
+        });
+
+        logIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CreateBeverageProfile.this, Login.class));
+            }
+        });
 
 
 
