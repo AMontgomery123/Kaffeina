@@ -20,8 +20,8 @@
 
     <TextView
         android:id="@+id/restaurantProfile"
-        android:layout_width="236dp"
-        android:layout_height="96dp"
+        android:layout_width="224dp"
+        android:layout_height="61dp"
         android:text="restaurant profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +69,10 @@
         android:text="Add Beverage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.79"
+        app:layout_constraintHorizontal_bias="0.832"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintVertical_bias="0.358" />
 
     <Button
         android:id="@+id/logInButton"
