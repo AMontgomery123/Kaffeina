@@ -18,6 +18,10 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class AddBeverage extends AppCompatActivity {
     BeverageProfile checkBeverage = new BeverageProfile();
     TextView beverage_name;
@@ -25,7 +29,7 @@ public class AddBeverage extends AppCompatActivity {
     //Button for adding the beverage
     Button addBeverage;
     FirebaseDatabase database;
-    DatabaseReference beverage_ref, beverage_by_user_ref;
+    DatabaseReference beverage_ref, beverage_by_user_ref, beverage_list_ref;
     private FirebaseUser current_user;
     BeverageProfile bP = new BeverageProfile();
     //
@@ -59,11 +63,11 @@ public class AddBeverage extends AppCompatActivity {
                     }
 
                     Intent intent = getIntent();
-                    String restaurant = intent.getStringExtra("Restaurant ID");
+                    final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
 
                     database = FirebaseDatabase.getInstance();
 
-                    final String unique_beverage_id = restaurant + "@" + beverageName;
+                    final String unique_beverage_id = current_restaurant.restaurant_name + "@" + beverageName;
 
                     final BeverageProfile beverage = new BeverageProfile(beverageName, calories, beverageInfo, user_id, unique_beverage_id);
 
@@ -84,6 +88,36 @@ public class AddBeverage extends AppCompatActivity {
                             else {
                                 Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist: "+checkBeverage.name, Toast.LENGTH_LONG).show();
                             }
+                        }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+
+                    DatabaseReference bev_rest = database.getReference().child("Restaurants/"+current_restaurant.restaurant_id);
+                    mdata.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Restaurant testRestaurant = snapshot.getValue(Restaurant.class);
+
+                            if (testRestaurant == null){
+                                List<String> bev_list = new ArrayList<>();
+                                testRestaurant = new Restaurant(current_restaurant.restaurant_address, current_restaurant.restaurant_id, current_restaurant.restaurant_name, bev_list);
+                                testRestaurant.beverage_list.add("water");
+                                testRestaurant.setRestaurant(current_restaurant);
+                                testRestaurant.beverage_list.add(beverage.name);
+                            }
+                            else{
+                                if (!Arrays.asList(testRestaurant.beverage_list).contains(beverage.name)) {
+                                    testRestaurant.beverage_list.add(beverage.name);
+                                }
+                            }
+                            beverage_list_ref = database.getReference("Restaurants/"+current_restaurant.restaurant_id);
+                            beverage_list_ref.setValue(testRestaurant);
                         }
 
 

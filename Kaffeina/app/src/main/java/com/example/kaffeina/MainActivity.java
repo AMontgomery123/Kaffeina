@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     Button registerTest, loginTest, reviewTests, createBeverageTest, searchTest, restaurantTest;
     FirebaseUser current_user;
@@ -39,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         restaurantTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks");
+                List<String> bev_list = new ArrayList<>();
+                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", bev_list);
                 Intent myIntent = new Intent(MainActivity.this, CreateRestaurant.class);
                 //Suds will make a restaurant class for the restaurant that will be clicked and have the
                 //id be passed from that parameter class
@@ -98,10 +102,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "please Log in", Toast.LENGTH_LONG).show();
                 }
                 else {
+
+                    List<String> bev_list = new ArrayList<>();
+                    Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", bev_list);
+
                     Intent myIntent = new Intent(MainActivity.this, AddBeverage.class);
                     //Suds will make a restaurant class for the restaurant that will be clicked and have the
                     //id be passed from that parameter class
-                    myIntent.putExtra("Restaurant ID", "restaurant1");
+                    myIntent.putExtra("restaurant", testRest);
                     startActivity(myIntent);
                 }
         };
