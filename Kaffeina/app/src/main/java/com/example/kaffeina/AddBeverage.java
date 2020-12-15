@@ -45,7 +45,7 @@ public class AddBeverage extends AppCompatActivity {
                 if (current_user == null) {
                     Toast.makeText(AddBeverage.this, "please sign in", Toast.LENGTH_LONG).show();
                 } else {
-                    String user_id = current_user.getUid();
+                    final String user_id = current_user.getUid();
                     String beverageName = beverage_name.getText().toString();
                     int calories = -1;
                     String beverageInfo = beverage_info.getText().toString();
@@ -61,17 +61,29 @@ public class AddBeverage extends AppCompatActivity {
                     Intent intent = getIntent();
                     String restaurant = intent.getStringExtra("Restaurant ID");
 
-                    BeverageProfile beverage = new BeverageProfile(beverageName, calories, beverageInfo, user_id, "2");
                     database = FirebaseDatabase.getInstance();
 
-                    String unique_beverage_id = restaurant + "@" + beverage.name;
+                    final String unique_beverage_id = restaurant + "@" + beverageName;
+
+                    final BeverageProfile beverage = new BeverageProfile(beverageName, calories, beverageInfo, user_id, unique_beverage_id);
 
                     DatabaseReference mdata = database.getReference().child("Beverage/" + unique_beverage_id);
-                    mdata.addValueEventListener(new ValueEventListener() {
+                    mdata.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             BeverageProfile testBeverage = snapshot.getValue(BeverageProfile.class);
-                            checkBeverage.setBeverageProfile(testBeverage);
+
+                            //checks if the beverages are already added or not
+                            if (testBeverage == null) {
+                                beverage_by_user_ref = database.getReference("Beverage_by_user/" + user_id);
+                                beverage_ref = database.getReference("Beverage/" + unique_beverage_id);
+                                beverage_ref.setValue(beverage);
+                                beverage_by_user_ref.setValue(unique_beverage_id);
+                            }
+                            //if they already exist, it'll give an error message
+                            else {
+                                Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist: "+checkBeverage.name, Toast.LENGTH_LONG).show();
+                            }
                         }
 
 
@@ -81,18 +93,6 @@ public class AddBeverage extends AppCompatActivity {
                         }
 
                     });
-                    //checks if the beverages are already added or not
-                    if (checkBeverage.name == null) {
-                        beverage_by_user_ref = database.getReference("Beverage_by_user/" + user_id);
-                        beverage_ref = database.getReference("Beverage/" + unique_beverage_id);
-                        beverage_ref.setValue(beverage);
-                        beverage_by_user_ref.setValue(unique_beverage_id);
-                    }
-                    //if they already exist, it'll give an error message
-                    else {
-                        Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist: "+checkBeverage.name, Toast.LENGTH_LONG).show();
-                    }
-
 
                     startActivity(new Intent(AddBeverage.this, MainActivity.class));
                 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/coffee_cup"
     tools:context=".CreateReview">
 
 
@@ -11,7 +12,7 @@
         android:id="@+id/createReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Review"
+        android:hint="Review title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +23,10 @@
         android:id="@+id/reviewBody"
         android:layout_width="240dp"
         android:layout_height="283dp"
+        android:background="@color/quantum_brown50"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Review body"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,21 +38,23 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/quantum_brown50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.262" />
 
     <EditText
         android:id="@+id/reviewTitle"
-        android:layout_width="263dp"
-        android:layout_height="30dp"
-        android:hint="Review Title"
-        android:text="Review Headline"
+        android:layout_width="257dp"
+        android:layout_height="72dp"
+        android:background="@color/quantum_brown50"
+        android:hint="Review headline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.22000003" />
+        app:layout_constraintVertical_bias="0.082" />
 </androidx.constraintlayout.widget.ConstraintLayout>
