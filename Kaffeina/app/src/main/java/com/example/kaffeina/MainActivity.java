@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
         restaurantTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                List<String> bev_list = new ArrayList<>();
-                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", bev_list);
+
+                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", "");
                 Intent myIntent = new Intent(MainActivity.this, CreateRestaurant.class);
                 //Suds will make a restaurant class for the restaurant that will be clicked and have the
                 //id be passed from that parameter class
-                myIntent.putExtra("restaurant_pass", testRest);
+                myIntent.putExtra("restaurant", testRest);
                 startActivity(myIntent);
             }
         });
@@ -102,9 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "please Log in", Toast.LENGTH_LONG).show();
                 }
                 else {
-
-                    List<String> bev_list = new ArrayList<>();
-                    Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", bev_list);
+                    Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks", "water");
 
                     Intent myIntent = new Intent(MainActivity.this, AddBeverage.class);
                     //Suds will make a restaurant class for the restaurant that will be clicked and have the

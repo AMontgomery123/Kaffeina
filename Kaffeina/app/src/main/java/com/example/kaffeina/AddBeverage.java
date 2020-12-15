@@ -29,7 +29,7 @@ public class AddBeverage extends AppCompatActivity {
     //Button for adding the beverage
     Button addBeverage;
     FirebaseDatabase database;
-    DatabaseReference beverage_ref, beverage_by_user_ref, beverage_list_ref;
+    DatabaseReference beverage_ref, beverage_by_user_ref, restaurant_ref;
     private FirebaseUser current_user;
     BeverageProfile bP = new BeverageProfile();
     //
@@ -62,10 +62,28 @@ public class AddBeverage extends AppCompatActivity {
                         beverage_info.requestFocus();
                     }
 
-                    Intent intent = getIntent();
-                    final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
-
+                    if(beverageName.indexOf(',')!=-1){
+                        beverage_name.setError("no commas allowed in beverage name");
+                        beverage_name.requestFocus();
+                    }
                     database = FirebaseDatabase.getInstance();
+
+                    Intent intent = getIntent();
+                    Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
+                    if(current_restaurant.beverage_list.length() > 0) {
+                        String[] bev_list = current_restaurant.beverage_list.split(",");
+
+                        if (!Arrays.asList(bev_list).contains(beverageName)){
+                            current_restaurant.beverage_list = current_restaurant.beverage_list+beverageName+",";
+                            restaurant_ref = database.getReference("Restaurants/"+current_restaurant.restaurant_id);
+                            restaurant_ref.setValue(current_restaurant);
+                        }
+                    }
+                    else{
+                        current_restaurant.beverage_list = current_restaurant.beverage_list+beverageName+",";
+                        restaurant_ref = database.getReference("Restaurants/"+current_restaurant.restaurant_id);
+                        restaurant_ref.setValue(current_restaurant);
+                    }
 
                     final String unique_beverage_id = current_restaurant.restaurant_name + "@" + beverageName;
 
@@ -88,36 +106,6 @@ public class AddBeverage extends AppCompatActivity {
                             else {
                                 Toast.makeText(AddBeverage.this, "ERROR: Beverage Already Exist: "+checkBeverage.name, Toast.LENGTH_LONG).show();
                             }
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-
-                    });
-
-                    DatabaseReference bev_rest = database.getReference().child("Restaurants/"+current_restaurant.restaurant_id);
-                    mdata.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Restaurant testRestaurant = snapshot.getValue(Restaurant.class);
-
-                            if (testRestaurant == null){
-                                List<String> bev_list = new ArrayList<>();
-                                testRestaurant = new Restaurant(current_restaurant.restaurant_address, current_restaurant.restaurant_id, current_restaurant.restaurant_name, bev_list);
-                                testRestaurant.beverage_list.add("water");
-                                testRestaurant.setRestaurant(current_restaurant);
-                                testRestaurant.beverage_list.add(beverage.name);
-                            }
-                            else{
-                                if (!Arrays.asList(testRestaurant.beverage_list).contains(beverage.name)) {
-                                    testRestaurant.beverage_list.add(beverage.name);
-                                }
-                            }
-                            beverage_list_ref = database.getReference("Restaurants/"+current_restaurant.restaurant_id);
-                            beverage_list_ref.setValue(testRestaurant);
                         }
 
 

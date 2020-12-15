@@ -26,13 +26,14 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateRestaurant extends AppCompatActivity{
     TextView restaurant_title, restaurant_address, restaurant_profile;
     Button log_in, add_beverage;
     ListView beverageListView;
-    List beverageList = new ArrayList();
+    List beverageList;
     ArrayAdapter adapter;
     FirebaseDatabase database;
     private FirebaseUser current_user;
@@ -48,7 +49,15 @@ public class CreateRestaurant extends AppCompatActivity{
         // Toast.makeText(CreateRestaurant.this, "User Id: "+user_id.toString(), Toast.LENGTH_LONG).show();
 
         Intent intent = getIntent();
-        final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant_pass");
+        final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
+        if(current_restaurant.beverage_list.length() > 0) {
+            String[] bev_list = current_restaurant.beverage_list.split(",");
+            beverageList = new ArrayList<String>(Arrays.asList(bev_list));
+        }
+        else{
+            beverageList = new ArrayList<String>();
+            beverageList.add("no beverages");
+        }
 
         restaurant_title = findViewById(R.id.restaurantTitle);
         restaurant_profile = findViewById(R.id.restaurantProfile);
@@ -61,12 +70,12 @@ public class CreateRestaurant extends AppCompatActivity{
 
         beverageListView = (ListView)findViewById(R.id.beverage_list);
 
-        beverageList.add("Black Coffee");
-        beverageList.add("Carmel Machiato");
-        beverageList.add("Green Tea");
-        beverageList.add("Water");
-        beverageList.add("Orange Juice");
-        beverageList.add("yo mama");
+//        beverageList.add("Black Coffee");
+//        beverageList.add("Carmel Machiato");
+//        beverageList.add("Green Tea");
+//        beverageList.add("Water");
+//        beverageList.add("Orange Juice");
+//        beverageList.add("yo mama");
 
         adapter = new ArrayAdapter(CreateRestaurant.this, android.R.layout.simple_list_item_1, beverageList);
         beverageListView.setAdapter(adapter);
@@ -76,10 +85,13 @@ public class CreateRestaurant extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = beverageListView.getItemAtPosition(position);
+                if (o.toString() != "no beverages"){
+                    Intent next_intent = new Intent(CreateRestaurant.this, CreateBeverageProfile.class);
+                    next_intent.putExtra("beverage_clicked", o.toString());
+                    next_intent.putExtra("restaurant", current_restaurant);
+                    startActivity(next_intent);
+                }
                 Toast.makeText(CreateRestaurant.this, "Clicked: "+o.toString(), Toast.LENGTH_LONG).show();
-//                Intent next_intent = new Intent(CreateRestaurant.this, CreateBeverageProfile.class);
-//                next_intent.putExtra("beverage_clicked", o.toString());
-//                startActivity(next_intent);
             }
         });
 
