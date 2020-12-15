@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Response;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,11 +40,13 @@ public class SearchableActivity extends ListActivity implements LocationListener
     final String BASE_URL = "https://api.yelp.com/v3/";
     double userLat;
     double userLong;
+    RecyclerView rvRestaurants;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+        rvRestaurants.findViewById(R.id.rvRestaurants);
 
         final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
         //final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
