@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-    Button registerTest, loginTest, reviewTests, createBeverageTest;
+    Button registerTest, loginTest, reviewTests, createBeverageTest, restaurantTest;
     FirebaseUser current_user;
     FirebaseAuth authMonster;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -27,11 +27,18 @@ public class MainActivity extends AppCompatActivity {
         loginTest = findViewById(R.id.loginTestButton);
         reviewTests = findViewById(R.id.reviewTestButton);
         createBeverageTest = findViewById(R.id.AddBeverage);
-
+        restaurantTest = findViewById(R.id.restaurantTestButton);
         registerTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Register.class));
+            }
+        });
+
+        restaurantTest.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(MainActivity.this, CreateRestaurant.class));
             }
         });
 
