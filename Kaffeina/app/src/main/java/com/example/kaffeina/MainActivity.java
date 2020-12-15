@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-    Button registerTest, loginTest, reviewTests, createBeverageTest, searchTest;
+    Button registerTest, loginTest, reviewTests, createBeverageTest, searchTest, restaurantTest;
     FirebaseUser current_user;
     FirebaseAuth authMonster;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -28,11 +28,23 @@ public class MainActivity extends AppCompatActivity {
         reviewTests = findViewById(R.id.reviewTestButton);
         createBeverageTest = findViewById(R.id.AddBeverage);
         searchTest = findViewById(R.id.Searchbutton);
+        restaurantTest = findViewById(R.id.restaurantTestButton);
 
         registerTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Register.class));
+            }
+        });
+        restaurantTest.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Restaurant testRest = new Restaurant("2233 Slippy Lane, San Jose, CA 94592", "44544", "Starbucks");
+                Intent myIntent = new Intent(MainActivity.this, CreateRestaurant.class);
+                //Suds will make a restaurant class for the restaurant that will be clicked and have the
+                //id be passed from that parameter class
+                myIntent.putExtra("restaurant_pass", testRest);
+                startActivity(myIntent);
             }
         });
         searchTest.setOnClickListener(new View.OnClickListener(){
