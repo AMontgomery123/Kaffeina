@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,13 +47,15 @@ public class SearchableActivity extends ListActivity implements LocationListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-        rvRestaurants.findViewById(R.id.rvRestaurants);
+        rvRestaurants = (RecyclerView) findViewById(R.id.rvRestaurants);
+
 
         final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
-        //final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
+        final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
+        rvRestaurants.setLayoutManager(new GridLayoutManager(this, 3));
+        rvRestaurants.setAdapter(adapter);
 
-        // rvRestaurants.adapter = adapter;
-        // rvRestaurants.layoutManager = new LinearLayoutManager(this);
+
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
