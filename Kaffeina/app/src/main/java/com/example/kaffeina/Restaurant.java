@@ -9,6 +9,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 @IgnoreExtraProperties
 public class Restaurant implements Serializable {
+    //create restaurant address, id, name, and list
     public String restaurant_address;
     public String restaurant_id;
     public String restaurant_name;
@@ -19,28 +20,34 @@ public class Restaurant implements Serializable {
     }
 
     public void setrestaurant_address(String address){
+        //set up the restaurant address
         this.restaurant_address = address;
     }
 
     public String getrestaurant_id(){
+        //return the restaurant id
         return this.restaurant_id;
     }
 
     public void setrestaurant_id(String id){
+        //set the restaurant id
         this.restaurant_id = id;
     }
 
     public String getrestaurant_name(){
+        //return the restaurant name
         return this.restaurant_name;
     }
 
     public void setrestaurant_name(String name){
+        //set the restaurant name
         this.restaurant_name = name;
     }
 
     public String getbeverage_list(){return beverage_list;}
 
     public void setbeverage_list(String blist){
+        //set the beverage list
         this.beverage_list = blist;
     }
 
