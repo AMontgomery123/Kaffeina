@@ -4,6 +4,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class Review {
+    //the review is consisted of a title, body, and rating
+    //the review itself is tied to an ID and cafe ID
     public String title;
     public Float rating;
     public String body;
