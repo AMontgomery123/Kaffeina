@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreateRestaurant extends AppCompatActivity{
+    // instantiate class variables
     TextView restaurant_title, restaurant_address, restaurant_profile;
     Button log_in, add_beverage;
     ListView beverageListView;
@@ -42,14 +43,19 @@ public class CreateRestaurant extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        // link to xml
         setContentView(R.layout.activity_restaurant);
 
+        // get user and read their Id
         current_user = FirebaseAuth.getInstance().getCurrentUser();
         final String user_id = current_user.getUid();
         // Toast.makeText(CreateRestaurant.this, "User Id: "+user_id.toString(), Toast.LENGTH_LONG).show();
 
+        // get data passed in by caller
         Intent intent = getIntent();
         final Restaurant current_restaurant = (Restaurant) intent.getSerializableExtra("restaurant");
+        
+        // create list of beverages
         if(current_restaurant.beverage_list.length() > 0) {
             String[] bev_list = current_restaurant.beverage_list.split(",");
             beverageList = new ArrayList<String>(Arrays.asList(bev_list));
@@ -65,20 +71,25 @@ public class CreateRestaurant extends AppCompatActivity{
         log_in = findViewById(R.id.logInButton);
         add_beverage = findViewById(R.id.addBeverageButton);
 
+        // set text to fields supplied by caller
         restaurant_title.setText(current_restaurant.restaurant_name);
         restaurant_address.setText(current_restaurant.restaurant_address);
 
+        // link to list view
         beverageListView = (ListView)findViewById(R.id.beverage_list);
 
+        // adapter will associate list view with the list to be displayed
         adapter = new ArrayAdapter(CreateRestaurant.this, android.R.layout.simple_list_item_1, beverageList);
         beverageListView.setAdapter(adapter);
 
+        // register user clicks on list items
         beverageListView.setClickable(true);
         beverageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = beverageListView.getItemAtPosition(position);
                 if (o.toString() != "no beverages"){
+                    // call beverage profile and pass it the necessary data
                     Intent next_intent = new Intent(CreateRestaurant.this, CreateBeverageProfile.class);
                     next_intent.putExtra("beverage_name", o.toString());
                     next_intent.putExtra("restaurant", current_restaurant);
@@ -88,6 +99,7 @@ public class CreateRestaurant extends AppCompatActivity{
             }
         });
 
+        // send user to login
         log_in.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -95,6 +107,7 @@ public class CreateRestaurant extends AppCompatActivity{
             }
         });
 
+        //send user to create beverage
         add_beverage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -102,6 +115,7 @@ public class CreateRestaurant extends AppCompatActivity{
                     Toast.makeText(CreateRestaurant.this, "Please log in to create beverage", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    // pass necessary data to add beverage
                     Intent next_intent = new Intent(CreateRestaurant.this, AddBeverage.class);
                     next_intent.putExtra("restaurant", current_restaurant);
                     startActivity(next_intent);
