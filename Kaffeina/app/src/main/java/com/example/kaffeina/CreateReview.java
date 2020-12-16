@@ -40,7 +40,7 @@ public class CreateReview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_review);
-
+        //allow the title, field, adnd body be found
         review_title = findViewById(R.id.reviewTitle);
         rating_field = (RatingBar)findViewById(R.id.ratingBar);
         review_body = findViewById(R.id.reviewBody);
