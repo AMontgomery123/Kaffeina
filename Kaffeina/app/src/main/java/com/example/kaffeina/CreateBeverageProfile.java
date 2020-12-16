@@ -30,13 +30,16 @@ public class CreateBeverageProfile extends AppCompatActivity {
     //Button
     Button createReview, logIn;
 
+    //When created, set the variables to existing layout UI elements in the XML
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beverageprofile);
 
+        //Finds the current logged-in user
         current_user = FirebaseAuth.getInstance().getCurrentUser();
         final String user_id = current_user.getUid();
 
+        //Sets variables to existing UI elements
         beverageProfile_title = findViewById(R.id.beverageTitle);
         beverageProfile_reviews = findViewById(R.id.beverageConsensus);
         beverageProfile_reviewAmount = findViewById(R.id.numberOfReviews);
@@ -52,6 +55,7 @@ public class CreateBeverageProfile extends AppCompatActivity {
 
         beverageProfile_title.setText(beverage_name);
 
+        //When clicking on the create review button, switch to the create review class
         createReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +71,7 @@ public class CreateBeverageProfile extends AppCompatActivity {
             }
         });
 
+        //When clicking the log in button, switch to the login class
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
