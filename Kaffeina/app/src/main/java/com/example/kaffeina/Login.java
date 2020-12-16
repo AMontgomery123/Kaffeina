@@ -54,6 +54,7 @@ public class Login extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                //create email and password
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
@@ -61,6 +62,7 @@ public class Login extends AppCompatActivity {
                     emailField.setError("Please enter an email address");
                     emailField.requestFocus();
                 }
+                //if password is empty, tell them to enter a password
                 else if(password.isEmpty()) {
                     passwordField.setError("Please enter a password");
                     passwordField.requestFocus();
