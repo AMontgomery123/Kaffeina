@@ -41,16 +41,21 @@ public class Register extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //return email, password, and name as strings
+                //set missingFields as false
                  String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
                  String name = nameField.getText().toString();
                 boolean missingFields = false;
-
+                
+                //if name is empty set an error asking the user to enter a name
                 if (name.isEmpty()) {
                     nameField.setError("Please enter a name");
                     nameField.requestFocus();
                     missingFields = true;
                 }
+                //if email is empty set an error asking the user to enter an email address
+                //if the password isn't present, ask for a password
                 else if (email.isEmpty()) {
                     emailField.setError("Please enter an email address");
                     emailField.requestFocus();
@@ -71,7 +76,7 @@ public class Register extends AppCompatActivity {
                                 String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
 
                                 switch (errorCode) {
-
+                                        //set up various errors as explained in the text given to the user
                                     case "ERROR_INVALID_CUSTOM_TOKEN":
                                         Toast.makeText(Register.this, "The custom token format is incorrect. Please check the documentation.", Toast.LENGTH_LONG).show();
                                         break;
@@ -152,7 +157,9 @@ public class Register extends AppCompatActivity {
                                 /// Toast.makeText(Register.this, "SignUp unsuccessful.  Did you sell your soul to Milhouse again?", Toast.LENGTH_SHORT).show();
                             }
                             else {
+                                //get user id
                                 String userID = Gandalph.getUid();
+                                //set up the name and email to string
                                 final String name = nameField.getText().toString();
                                 final String email = emailField.getText().toString();
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
