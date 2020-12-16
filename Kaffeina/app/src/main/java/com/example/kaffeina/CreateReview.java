@@ -102,11 +102,6 @@ public class CreateReview extends AppCompatActivity {
                         }
 
                 });
-                   //DatabaseReference updateUserReviewCount = database.getReference("User/"+user_id);
-                    //updateUser.reviewCount++;
-                    //Toast.makeText(CreateReview.this, "updateUser: "+Integer.toString(updateUser.reviewCount), Toast.LENGTH_LONG).show();
-                    //updateUserReviewCount.setValue(updateUser);
-
                     startActivity(new Intent(CreateReview.this, MainActivity.class));
                 }
             }

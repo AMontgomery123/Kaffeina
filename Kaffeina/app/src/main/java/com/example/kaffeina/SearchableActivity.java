@@ -1,6 +1,7 @@
 package com.example.kaffeina;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -9,9 +10,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,57 +38,75 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchableActivity extends ListActivity implements LocationListener {
-    final String api_key = "y4H3bZlkpQY_teceOJpBAeLjPnTrV-FHCcDT3CMObQf_AiPOqzStf5PmfkV60ch7URJz7JWXWlnUDuoWVc7xA08bLxe7fIQESu23V4yEAi8QUxQ-h1pjqFvy2dy1X3Yx";
+public class SearchableActivity extends Activity implements LocationListener {
+    final String api_key = "8qAmQjja1BpFCrjRjK07GiQaHwrpQUGMZRMrHmLpbYIW0_JZiwD8iLNNzPgLrpGw4Yqe035LyzxkyKbZ0-OQCKkJ5lFPjbgWyl-ajdiCY_lS_fnRQGsE7BKJTY_ZX3Yx";
     final String BASE_URL = "https://api.yelp.com/v3/";
     double userLat;
     double userLong;
     RecyclerView rvRestaurants;
+    EditText search_bar;
+    Button go_button;
+    List restaurantList;
+    ArrayAdapter adapter;
+    ListView resultsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-        rvRestaurants = (RecyclerView) findViewById(R.id.rvRestaurants);
 
+        go_button = (Button)findViewById(R.id.goButton);
+        search_bar = findViewById(R.id.searchQuery);
+        resultsList = (ListView)findViewById(R.id.searchList);
 
-        final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
-        final RestaurantsAdapter adapter = new RestaurantsAdapter(this, restaurants);
-        rvRestaurants.setLayoutManager(new GridLayoutManager(this, 3));
-        rvRestaurants.setAdapter(adapter);
+        go_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query =  search_bar.getText().toString();
 
+                final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
 
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            ListAdapter queryAdapter = null;
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            YelpFunctions yelpClient = retrofit.create(YelpFunctions.class);
-            yelpClient.searchRestaurants("Bearer "+api_key,query,"San Jose").enqueue(new Callback<YelpSearchResult>(){
-                @Override
-                public void onResponse(Call<YelpSearchResult> call, retrofit2.Response<YelpSearchResult> response) {
-                    Log.i("SearchableActivity","onResponse" + response);
-                    YelpSearchResult body = response.body();
-                    if(body==null){
-                        Log.w("SearchableActivity", "Response body not received");
-                        return;
-                    }
-                    restaurants.addAll(body.restaurants);
-                    //adapter.notifyAll();
-                }
-                @Override
-                public void onFailure(Call<YelpSearchResult> call, Throwable t) {
-                    Log.i("Searchable","onFailure" + t);
-                }
-            });
-            setListAdapter(queryAdapter);
-        }
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    YelpFunctions yelpClient = retrofit.create(YelpFunctions.class);
+                    yelpClient.searchRestaurants("Bearer "+api_key,query,"San Francisco").enqueue(new Callback<YelpSearchResult>(){
+                        @Override
+                        public void onResponse(Call<YelpSearchResult> call, retrofit2.Response<YelpSearchResult> response) {
+                            Log.i("SearchableActivity","onResponse" + response);
+                            YelpSearchResult body = response.body();
+                            if(body==null){
+                                Log.w("SearchableActivity", "Response body not received");
+                                return;
+                            }
+                            restaurants.addAll(body.restaurants);
+//                            restaurantList = new ArrayList<String>();
+//                            int num = 0;
+//                            if(restaurants.size() <10){
+//                                num = restaurants.size();
+//                            }
+//
+//                            for (int i = 0; i < num; i++){
+//                                restaurantList.add(restaurants.get(i).name);
+//                            }
+
+                            adapter = new ArrayAdapter(SearchableActivity.this, android.R.layout.simple_list_item_1, restaurants);
+                            resultsList.setAdapter(adapter);
+                        }
+                        @Override
+                        public void onFailure(Call<YelpSearchResult> call, Throwable t) {
+                            Log.i("Searchable","onFailure" + t);
+                        }
+                    });
+                    //setListAdapter(queryAdapter);
+            }
+        });
+
     }
 
     //LocationListener
