@@ -50,6 +50,7 @@ public class CreateReview extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 current_user = FirebaseAuth.getInstance().getCurrentUser();
+                //if the user hasn't logged in yet, inform them to log in
                 if( current_user == null){
                     Toast.makeText(CreateReview.this, "please Log in", Toast.LENGTH_LONG).show();
                 }
@@ -59,7 +60,7 @@ public class CreateReview extends AppCompatActivity {
                     Float ratingScore = 1f;
                     ratingScore = rating_field.getRating();
                     String actualReview = review_body.getText().toString();
-
+                    //error is made if the title, rating score, or actual review are not present
                     if (title.isEmpty()) {
                         review_title.setError("Please enter a title");
                         review_title.requestFocus();
@@ -74,7 +75,7 @@ public class CreateReview extends AppCompatActivity {
 
                     Review review = new Review(title, ratingScore, actualReview, user_id, "2");
                     database = FirebaseDatabase.getInstance();
-
+                    //Acquire the reviews made by the user and their id
                     String unique_id = user_id + "@" + Long.toString(System.currentTimeMillis());
                     review_ref = database.getReference("Reviews/" + unique_id);
                     review_by_user_ref = database.getReference("Review_by_user/" + user_id);
