@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+
+//this is a data class for the individual restaurants
+
 @SuppressWarnings("serial")
 @IgnoreExtraProperties
 public class Restaurant implements Serializable {
