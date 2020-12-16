@@ -67,6 +67,7 @@ public class SearchableActivity extends Activity implements LocationListener {
         go_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //obtain query string from the search bar widget
                 String query =  search_bar.getText().toString();
 
                 final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
@@ -84,6 +85,7 @@ public class SearchableActivity extends Activity implements LocationListener {
                                 Log.w("SearchableActivity", "Response body not received");
                                 return;
                             }
+                            //create restaurant objects
                             restaurants.addAll(body.restaurants);
                             //restaurantList = new ArrayList<String>();
 //                            int num = 0;
@@ -94,7 +96,8 @@ public class SearchableActivity extends Activity implements LocationListener {
 //                            for (int i = 0; i < num; i++){
 //                                restaurantList.add(restaurants.get(i).name);
 //                            }
-                             //add objects to Adapter to create a 
+                            
+                             //add objects to Adapter, in order to display in list view
                             adapter = new ArrayAdapter(SearchableActivity.this, android.R.layout.simple_list_item_1, restaurants);
                             resultsList.setAdapter(adapter);
                         }
@@ -109,7 +112,7 @@ public class SearchableActivity extends Activity implements LocationListener {
 
     }
 
-    //LocationListener
+    //LocationListener - NOT built out
     @Override
     public void onLocationChanged(@NonNull Location location) {
         userLat = location.getLatitude();
