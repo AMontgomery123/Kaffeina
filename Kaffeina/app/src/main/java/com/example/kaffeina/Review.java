@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Review {
     public String title;
-    public int rating;
+    public Float rating;
     public String body;
     public String uid;
     public String restaurant_id;
@@ -14,7 +14,7 @@ public class Review {
 
     }
 
-    public Review(String title, int rating, String body, String uid, String restaurant_id){
+    public Review(String title, Float rating, String body, String uid, String restaurant_id){
         this.title = title;
         this.rating = rating;
         this.body = body;
