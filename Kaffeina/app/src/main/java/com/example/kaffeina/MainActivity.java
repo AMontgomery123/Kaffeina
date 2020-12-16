@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth authMonster;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    //Initialize all buttons from the XML to variables
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
         searchTest = findViewById(R.id.Searchbutton);
         restaurantTest = findViewById(R.id.restaurantTestButton);
 
+        //When clicking Register Test button, be directed to Register class.
         registerTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Register.class));
             }
         });
+        //When clicking Restaurant test button, be directed to Create Restaurant class.
         restaurantTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+        //When clicking Search test button, be directed to Searchable Activity class.
         searchTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -59,12 +63,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //When clicking Login test button, be directed to Login class.
         loginTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MainActivity.this, Login.class));
             }
         });
+        
+        //When clicking Review test button, be directed to CreateReview class.
         reviewTests.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -86,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //When clicking Create Beverage test button, be directed to AddBeverage class.
         createBeverageTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
