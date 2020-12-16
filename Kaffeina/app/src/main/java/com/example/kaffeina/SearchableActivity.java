@@ -85,7 +85,7 @@ public class SearchableActivity extends Activity implements LocationListener {
                                 return;
                             }
                             restaurants.addAll(body.restaurants);
-//                            restaurantList = new ArrayList<String>();
+                            //restaurantList = new ArrayList<String>();
 //                            int num = 0;
 //                            if(restaurants.size() <10){
 //                                num = restaurants.size();

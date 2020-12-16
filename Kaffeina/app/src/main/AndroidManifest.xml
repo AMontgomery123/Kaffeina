@@ -12,6 +12,7 @@
         <activity android:name=".Login"></activity>
         <activity android:name=".Register" />
         <activity android:name=".CreateReview" />
+        <activity android:name=".SearchableActivity" />
         <activity android:name=".AddBeverage" />
         <activity android:name=".CreateRestaurant" />
         <activity android:name=".CreateBeverageProfile" />

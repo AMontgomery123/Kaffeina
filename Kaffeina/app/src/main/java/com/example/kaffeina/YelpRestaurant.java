@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class YelpRestaurant {
-    String name;
+    public String name;
     Double rating;
     String price;
     @SerializedName("review_count") int numReviews;
