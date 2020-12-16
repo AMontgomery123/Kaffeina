@@ -70,7 +70,7 @@ public class SearchableActivity extends Activity implements LocationListener {
                 String query =  search_bar.getText().toString();
 
                 final ArrayList<YelpRestaurant> restaurants = new ArrayList<YelpRestaurant>();
-
+                  //create the client object and make the API call
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
@@ -94,7 +94,7 @@ public class SearchableActivity extends Activity implements LocationListener {
 //                            for (int i = 0; i < num; i++){
 //                                restaurantList.add(restaurants.get(i).name);
 //                            }
-
+                             //add objects to Adapter to create a 
                             adapter = new ArrayAdapter(SearchableActivity.this, android.R.layout.simple_list_item_1, restaurants);
                             resultsList.setAdapter(adapter);
                         }
