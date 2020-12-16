@@ -17,6 +17,7 @@ public class Review {
     }
 
     public Review(String title, Float rating, String body, String uid, String restaurant_id){
+        //constructor, set this.title = title and so on
         this.title = title;
         this.rating = rating;
         this.body = body;
