@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    //set up the buttons for the various tests
     Button registerTest, loginTest, reviewTests, createBeverageTest, searchTest, restaurantTest;
     FirebaseUser current_user;
     FirebaseAuth authMonster;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //have the tests be able to found by Id
         registerTest = findViewById(R.id.registerTestButton);
         loginTest = findViewById(R.id.loginTestButton);
         reviewTests = findViewById(R.id.reviewTestButton);
